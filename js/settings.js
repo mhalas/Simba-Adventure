@@ -7,6 +7,7 @@ var settings = {
 
     speed: 2,
     animationSpeed: 15,
+    jumpMove: 100,
 
-    Ygravity: 50
+    Ygravity: 1000 
 }

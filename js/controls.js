@@ -1,51 +1,42 @@
-var upKey;
-var downKey;
-var leftKey;
-var rightKey;
+var controls;
 
 function InitializeControls() {
-    upKey = game.input.keyboard.addKey(Phaser.Keyboard.UP);
-    downKey = game.input.keyboard.addKey(Phaser.Keyboard.DOWN);
-    leftKey = game.input.keyboard.addKey(Phaser.Keyboard.LEFT);
-    rightKey = game.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
+    controls = game.input.keyboard.createCursorKeys();
 }
 
 function ControlsListener() {
-    if (upKey.isDown && simba.body.onFloor())
+    if(controls.up.isDown && simba.body.touching.down) 
     {
-        simba.body.velocity.y = -250;
-
-        if(simba.scale.x > 0)
-            simba.x -= settings.animationSpeed;
-        else if(simba.scale.x < 0)
-            simba.x += settings.animationSpeed;
-
-
-        simba.animations.play('jump', settings.animationSpeed, true);
+        simba.body.velocity.y = -500;
     }
-    else if(downKey.isDown) 
+    else if (controls.left.isDown && simba.body.touching.down)
     {
-        
-    }
-    else if (leftKey.isDown && !simba.body.onFloor())
-    {
-        simba.x-=settings.speed;
+        simba.body.velocity.x-=settings.speed;
         if(simba.scale.x > 0)
             simba.scale.x *= -1;
 
-        simba.animations.play('moving', settings.animationSpeed, true);
+        simba.animations.play('running', settings.animationSpeed, true);
     }
-    else if (rightKey.isDown && !simba.body.onFloor())
+    else if (controls.right.isDown && simba.body.touching.down)
     {
-        simba.x+=settings.speed;
+        simba.body.velocity.x+=settings.speed;
         if(simba.scale.x < 0)
             simba.scale.x *= -1;
 
-        simba.animations.play('moving', settings.animationSpeed, true);
+        simba.animations.play('running', settings.animationSpeed, true);
+    }
+    else if(simba.body.touching.down) {
+        simba.body.velocity.x = 0;
+        simba.animations.play('standing', settings.animationSpeed, true);
     }
 
-    if(upKey.isUp && downKey.isUp && leftKey.isUp && rightKey.isUp)
-    {
-        simba.animations.play('standing', settings.animationSpeed, true);
+    if(!simba.body.touching.down) {
+        if(simba.scale.x > 0)
+            simba.body.velocity.x = settings.jumpMove;
+        else if(simba.scale.x < 0)
+            simba.body.velocity.x = -settings.jumpMove;
+
+
+        simba.animations.play('jumping', settings.animationSpeed, true);
     }
 }
