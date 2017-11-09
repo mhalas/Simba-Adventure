@@ -7,6 +7,6 @@ function InitializeStarObject() {
 
 function createStar(x,y) {
     var star = stars.create(x,y, 'star');
-    star.scale.x = 0.05;
-    star.scale.y = 0.05;
+    star.scale.x = 0.06;
+    star.scale.y = 0.06;
 }
